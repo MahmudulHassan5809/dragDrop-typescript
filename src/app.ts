@@ -226,6 +226,7 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
     dragOverHandler(event: DragEvent) {
         if(event.dataTransfer && event.dataTransfer.types[0] === 'text/plain'){
             event.preventDefault();
+            event.stopPropagation();
             const listEl = this.element.querySelector('ul');
             listEl?.classList.add('droppable');
         }
@@ -233,6 +234,8 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
 
     @autobind
     dropHandler(event: DragEvent){
+        event.preventDefault();
+        event.stopPropagation();
         const prjId = event.dataTransfer!.getData('text/plain');
         projectState.moveProject(prjId, this.type === 'active' ? ProjectStatus.Active : ProjectStatus.Finished)
     }
